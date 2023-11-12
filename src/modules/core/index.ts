@@ -72,7 +72,7 @@ export default class extends Module {
 			msg.reply(serifs.core.tooLong);
 			return true;
 		}
-
+ああああああああああああああああああああああああ
 		if (!safeForInterpolate(name)) {
 			msg.reply(serifs.core.invalidName);
 			return true;
