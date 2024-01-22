@@ -1,15 +1,15 @@
-import autobind from 'autobind-decorator';
-import Module from '@/module';
-import Message from '@/message';
-import serifs from '@/serifs';
-import { safeForInterpolate } from '@/utils/safe-for-interpolate';
+import { bindThis } from '@/decorators.js';
+import Module from '@/module.js';
+import Message from '@/message.js';
+import serifs from '@/serifs.js';
+import { safeForInterpolate } from '@/utils/safe-for-interpolate.js';
 
 const titles = ['さん', 'くん', '君', 'ちゃん', '様', '先生'];
 
 export default class extends Module {
 	public readonly name = 'core';
 
-	@autobind
+	@bindThis
 	public install() {
 		return {
 			mentionHook: this.mentionHook,
@@ -17,7 +17,7 @@ export default class extends Module {
 		};
 	}
 
-	@autobind
+	@bindThis
 	private async mentionHook(msg: Message) {
 		if (!msg.text) return false;
 
@@ -30,7 +30,7 @@ export default class extends Module {
 		);
 	}
 
-	@autobind
+	@bindThis
 	private transferBegin(msg: Message): boolean  {
 		if (!msg.text) return false;
 		if (!msg.includes(['引継', '引き継ぎ', '引越', '引っ越し'])) return false;
@@ -42,7 +42,7 @@ export default class extends Module {
 		return true;
 	}
 
-	@autobind
+	@bindThis
 	private transferEnd(msg: Message): boolean  {
 		if (!msg.text) return false;
 		if (!msg.text.startsWith('「') || !msg.text.endsWith('」')) return false;
@@ -60,37 +60,23 @@ export default class extends Module {
 		return true;
 	}
 
-@autobind
-	private setName(msg: Message): boolean {
-  	if (!msg.text) {
-    	return false;
-  	}
+	@bindThis
+	private setName(msg: Message): boolean  {
+		if (!msg.text) return false;
+		if (!msg.text.includes('って呼んで')) return false;
+		if (msg.text.startsWith('って呼んで')) return false;
 
-  	if (!msg.text.includes('って呼んで')) {
-			return false;
-  	}
+		const name = msg.text.match(/^(.+?)って呼んで/g)![1];
 
-  	if (msg.text.startsWith('って呼んで')) {
-    	return false;
-  	}
+		if (name.length > 10) {
+			msg.reply(serifs.core.tooLong);
+			return true;
+		}
 
-  	const matchResult = msg.text.match(/^(.+?)って呼んで/);
-
-  	if (!matchResult) {
-    	return false;
-  	}
-
-  	const name = matchResult[1];
-
-  	if (name.length > 30) {
-    	msg.reply(serifs.core.tooLong);
-    	return true;
-  	}
-
-  	if (safeForInterpolate(name)) {
-    	msg.reply(serifs.core.invalidName);
-    	return true;
-  	}
+		if (!safeForInterpolate(name)) {
+			msg.reply(serifs.core.invalidName);
+			return true;
+		}
 
   	const withSan = titles.some(t => name.endsWith(t));
 
@@ -112,7 +98,7 @@ export default class extends Module {
   return true;
 }
 
-	@autobind
+	@bindThis
 	private modules(msg: Message): boolean  {
 		if (!msg.text) return false;
 		if (!msg.or(['modules'])) return false;
@@ -132,7 +118,7 @@ export default class extends Module {
 		return true;
 	}
 
-	@autobind
+	@bindThis
 	private version(msg: Message): boolean  {
 		if (!msg.text) return false;
 		if (!msg.or(['v', 'version', 'バージョン'])) return false;
@@ -144,7 +130,7 @@ export default class extends Module {
 		return true;
 	}
 
-	@autobind
+	@bindThis
 	private async contextHook(key: any, msg: Message, data: any) {
 		if (msg.text == null) return;
 
