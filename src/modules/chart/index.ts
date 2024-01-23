@@ -52,7 +52,7 @@ export default class extends Module {
 				span: 'day',
 				limit: 30,
 				userId: params.user.id
-			});
+			}) as any;
 
 			chart = {
 				title: `@${params.user.username}さんの投稿数`,
@@ -69,7 +69,7 @@ export default class extends Module {
 				span: 'day',
 				limit: 30,
 				userId: params.user.id
-			});
+			}) as any;
 
 			chart = {
 				title: `@${params.user.username}さんのフォロワー数`,
@@ -83,7 +83,7 @@ export default class extends Module {
 			const data = await this.ai.api('charts/notes', {
 				span: 'day',
 				limit: 30,
-			});
+			}) as any;
 
 			chart = {
 				datasets: [{

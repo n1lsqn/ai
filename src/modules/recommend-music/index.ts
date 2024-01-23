@@ -1,7 +1,7 @@
-import autobind from 'autobind-decorator';
-import Module from '@/module';
-import Message from '@/message';
-import serifs from '@/serifs';
+import Module from '@/module.js';
+import Message from '@/message.js';
+import serifs from '@/serifs.js';
+import { bindThis } from '@/decorators.js';
 
 const vocaloidUrls = [
 	// ボカロ
@@ -119,14 +119,14 @@ const jPopUrls = [
 export default class extends Module {
 	public readonly name = 'recommendMusic';
 
-	@autobind
+	@bindThis
 	public install() {
 		return {
 			mentionHook: this.mentionHook
 		};
 	}
 
-	@autobind
+	@bindThis
 	private async mentionHook(msg: Message) {
 		if (msg.includes(['音楽', '曲', '曲者'])) {
 			const music = vocaloidUrls[Math.floor(Math.random() * vocaloidUrls.length)];

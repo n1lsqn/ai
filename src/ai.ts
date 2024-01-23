@@ -6,7 +6,7 @@ import loki from 'lokijs';
 import got from 'got';
 import chalk from 'chalk';
 import { v4 as uuid } from 'uuid';
-
+import * as request from 'request-promise-native';
 import config from '@/config.js';
 import Module from '@/module.js';
 import Message from '@/message.js';
@@ -42,17 +42,17 @@ export type Meta = {
 export default class 藍 {
 	public readonly version = pkg._v;
 	public account: User;
-	public connection: Stream;
+	public connection!: Stream;
 	public modules: Module[] = [];
 	private mentionHooks: MentionHook[] = [];
 	private contextHooks: { [moduleName: string]: ContextHook } = {};
 	private timeoutCallbacks: { [moduleName: string]: TimeoutCallback } = {};
 	public db: loki;
-	public lastSleepedAt: number;
+	public lastSleepedAt!: number;
 
-	private meta: loki.Collection<Meta>;
+	private meta!: loki.Collection<Meta>;
 
-	private contexts: loki.Collection<{
+	private contexts!: loki.Collection<{
 		noteId?: string;
 		userId?: string;
 		module: string;
@@ -60,7 +60,7 @@ export default class 藍 {
 		data?: any;
 	}>;
 
-	private timers: loki.Collection<{
+	private timers!: loki.Collection<{
 		id: string;
 		module: string;
 		insertedAt: number;
@@ -68,8 +68,8 @@ export default class 藍 {
 		data?: any;
 	}>;
 
-	public friends: loki.Collection<FriendDoc>;
-	public moduleData: loki.Collection<any>;
+	public friends!: loki.Collection<FriendDoc>;
+	public moduleData!: loki.Collection<any>;
 
 	/**
 	 * 藍インスタンスを生成します
@@ -344,7 +344,7 @@ export default class 藍 {
 	 */
 	@bindThis
 	public async upload(file: Buffer | fs.ReadStream, meta: any) {
-		const res = await got.post({
+		const res = await request.post({
 			url: `${config.apiUrl}/drive/files/create`,
 			formData: {
 				i: config.i,
@@ -354,7 +354,7 @@ export default class 藍 {
 				}
 			},
 			json: true
-		}).json();
+		})
 		return res;
 	}
 
@@ -363,7 +363,7 @@ export default class 藍 {
 	 */
 	@bindThis
 	public async post(param: any) {
-		const res = await this.api('notes/create', param);
+		const res = await this.api('notes/create', param) as any;
 		return res.createdNote;
 	}
 

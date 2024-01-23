@@ -14,6 +14,7 @@
 		"strict": true,
 		"strictFunctionTypes": true,
 		"strictNullChecks": true,
+		"strictPropertyInitialization": false,
 		"experimentalDecorators": true,
 		"noImplicitReturns": true,
 		"noImplicitAny": false,
@@ -37,7 +38,8 @@
     ]
 	},
 	"include": [
-		"src/**/*"
+		"src/**/*",
+		"./config.json"
 	],
 	"exclude": [
 		"node_modules"

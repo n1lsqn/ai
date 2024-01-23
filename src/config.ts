@@ -1,15 +1,15 @@
-type Config = {
+interface Config {
 	host: string;
 	serverName?: string;
 	i: string;
 	master?: string;
 	wsUrl: string;
 	apiUrl: string;
-	keywordEnabled: boolean;
-	reversiEnabled: boolean;
-	notingEnabled: boolean;
-	chartEnabled: boolean;
-	serverMonitoring: boolean;
+	keywordEnabled: boolean | string;
+	reversiEnabled: boolean | string;
+	notingEnabled: boolean | string;
+	chartEnabled: boolean | string;
+	serverMonitoring: boolean | string;
 	checkEmojisEnabled?: boolean;
 	checkEmojisAtOnce?: boolean;
 	mecab?: string;
