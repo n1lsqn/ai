@@ -1,15 +1,15 @@
-import autobind from 'autobind-decorator';
-import Module from '@/module';
-import Message from '@/message';
-import serifs from '@/serifs';
-import { safeForInterpolate } from '@/utils/safe-for-interpolate';
+import { bindThis } from '@/decorators.js';
+import Module from '@/module.js';
+import Message from '@/message.js';
+import serifs from '@/serifs.js';
+import { safeForInterpolate } from '@/utils/safe-for-interpolate.js';
 
 const titles = ['さん', 'くん', '君', 'ちゃん', '様', '先生'];
 
 export default class extends Module {
 	public readonly name = 'core';
 
-	@autobind
+	@bindThis
 	public install() {
 		return {
 			mentionHook: this.mentionHook,
@@ -17,7 +17,7 @@ export default class extends Module {
 		};
 	}
 
-	@autobind
+	@bindThis
 	private async mentionHook(msg: Message) {
 		if (!msg.text) return false;
 
@@ -30,7 +30,7 @@ export default class extends Module {
 		);
 	}
 
-	@autobind
+	@bindThis
 	private transferBegin(msg: Message): boolean  {
 		if (!msg.text) return false;
 		if (!msg.includes(['引継', '引き継ぎ', '引越', '引っ越し'])) return false;
@@ -42,7 +42,7 @@ export default class extends Module {
 		return true;
 	}
 
-	@autobind
+	@bindThis
 	private transferEnd(msg: Message): boolean  {
 		if (!msg.text) return false;
 		if (!msg.text.startsWith('「') || !msg.text.endsWith('」')) return false;
@@ -60,6 +60,8 @@ export default class extends Module {
 		return true;
 	}
 
+/*
+	<<<<<<< HEAD
 @autobind
 	private setName(msg: Message): boolean {
   	if (!msg.text) {
@@ -69,6 +71,24 @@ export default class extends Module {
   	if (!msg.text.includes('って呼んで')) {
 			return false;
   	}
+=======
+	@bindThis
+	private setName(msg: Message): boolean  {
+		if (!msg.text) return false;
+		if (!msg.text.includes('って呼んで')) return false;
+		if (msg.text.startsWith('って呼んで')) return false;
+
+		const name = msg.text.match(/^(.+?)って呼んで/g)![1];
+>>>>>>> 54f10b33216ad516507c4d6eac45f435866a06ad
+*/
+/*
+	@bindThis
+	private setName(msg: Message): boolean  {
+		if (!msg.text) return false;
+		if (!msg.text.includes('って呼んで')) return false;
+		if (msg.text.startsWith('って呼んで')) return false;
+
+		const name = msg.text.match(/^(.+?)って呼んで/g)![1];
 
   	if (msg.text.startsWith('って呼んで')) {
     	return false;
@@ -111,8 +131,41 @@ export default class extends Module {
 
   return true;
 }
+*/
+@bindThis
+private setName(msg: Message): boolean  {
+	if (!msg.text) return false;
+	if (!msg.text.includes('って呼んで')) return false;
+	if (msg.text.startsWith('って呼んで')) return false;
 
-	@autobind
+	const name = msg.text.match(/^(.+?)って呼んで/g)![1];
+
+	if (name.length > 10) {
+		msg.reply(serifs.core.tooLong);
+		return true;
+	}
+
+	if (!safeForInterpolate(name)) {
+		msg.reply(serifs.core.invalidName);
+		return true;
+	}
+
+	const withSan = titles.some(t => name.endsWith(t));
+
+	if (withSan) {
+		msg.friend.updateName(name);
+		msg.reply(serifs.core.setNameOk(name));
+	} else {
+		msg.reply(serifs.core.san).then(reply => {
+			this.subscribeReply(msg.userId, reply.id, {
+				name: name
+			});
+		});
+	}
+
+	return true;
+}
+	@bindThis
 	private modules(msg: Message): boolean  {
 		if (!msg.text) return false;
 		if (!msg.or(['modules'])) return false;
@@ -132,7 +185,7 @@ export default class extends Module {
 		return true;
 	}
 
-	@autobind
+	@bindThis
 	private version(msg: Message): boolean  {
 		if (!msg.text) return false;
 		if (!msg.or(['v', 'version', 'バージョン'])) return false;
@@ -144,7 +197,7 @@ export default class extends Module {
 		return true;
 	}
 
-	@autobind
+	@bindThis
 	private async contextHook(key: any, msg: Message, data: any) {
 		if (msg.text == null) return;
 

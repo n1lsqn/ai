@@ -1,13 +1,13 @@
-import autobind from 'autobind-decorator';
-import * as chalk from 'chalk';
-const delay = require('timeout-as-promise');
+import { bindThis } from '@/decorators.js';
+import chalk from 'chalk';
 
-import 藍 from '@/ai';
-import Friend from '@/friend';
-import { User } from '@/misskey/user';
-import includes from '@/utils/includes';
-import or from '@/utils/or';
-import config from '@/config';
+import 藍 from '@/ai.js';
+import Friend from '@/friend.js';
+import { User } from '@/misskey/user.js';
+import includes from '@/utils/includes.js';
+import or from '@/utils/or.js';
+import config from '@/config.js';
+import { sleep } from '@/utils/sleep.js';
 
 export default class Message {
 	private ai: 藍;
@@ -64,11 +64,11 @@ export default class Message {
 		this.ai.api('users/show', {
 			userId: this.userId
 		}).then(user => {
-			this.friend.updateUser(user);
+			this.friend.updateUser(user as User);
 		});
 	}
 
-	@autobind
+	@bindThis
 	public async reply(text: string | null, opts?: {
 		file?: any;
 		cw?: string;
@@ -80,24 +80,26 @@ export default class Message {
 		this.ai.log(`>>> Sending reply to ${chalk.underline(this.id)}`);
 
 		if (!opts?.immediate) {
-			await delay(2000);
+			await sleep(2000);
 		}
+		const replyVisibility = this.note.visibility === 'public' ? 'home' : this.note.visibility;
 
 		return await this.ai.post({
 			replyId: this.note.id,
 			text: text,
 			fileIds: opts?.file ? [opts?.file.id] : undefined,
 			cw: opts?.cw,
-			renoteId: opts?.renote
+			renoteId: opts?.renote,
+			visibility: replyVisibility
 		});
 	}
 
-	@autobind
+	@bindThis
 	public includes(words: string[]): boolean {
 		return includes(this.text, words);
 	}
 
-	@autobind
+	@bindThis
 	public or(words: (string | RegExp)[]): boolean {
 		return or(this.text, words);
 	}
