@@ -383,7 +383,7 @@ export default class 藍 {
 	@bindThis
 	public api(endpoint: string, param?: any) {
 		this.log(`API: ${endpoint}`);
-		return req.post(`${config.apiUrl}/${endpoint}`, {
+		return request.post(`${config.apiUrl}/${endpoint}`, {
 			json: Object.assign({
 				i: config.i
 			}, param)
