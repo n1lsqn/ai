@@ -353,7 +353,7 @@ export default class 藍 {
 				}
 			},
 			json: true
-		}).json();
+		});
 		return res;
 	}
 
@@ -387,7 +387,7 @@ export default class 藍 {
 			json: Object.assign({
 				i: config.i
 			}, param)
-		}).json();
+		});
 	};
 
 	/**
