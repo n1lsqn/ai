@@ -3,7 +3,7 @@
 import * as fs from 'fs';
 import { bindThis } from '@/decorators.js';
 import loki from 'lokijs';
-import got from 'got';
+import request from 'request-promise-native';
 import chalk from 'chalk';
 import { v4 as uuid } from 'uuid';
 
@@ -343,7 +343,7 @@ export default class 藍 {
 	 */
 	@bindThis
 	public async upload(file: Buffer | fs.ReadStream, meta: any) {
-		const res = await got.post({
+		const res = await request.post({
 			url: `${config.apiUrl}/drive/files/create`,
 			formData: {
 				i: config.i,
@@ -383,7 +383,7 @@ export default class 藍 {
 	@bindThis
 	public api(endpoint: string, param?: any) {
 		this.log(`API: ${endpoint}`);
-		return got.post(`${config.apiUrl}/${endpoint}`, {
+		return req.post(`${config.apiUrl}/${endpoint}`, {
 			json: Object.assign({
 				i: config.i
 			}, param)

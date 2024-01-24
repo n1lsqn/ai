@@ -72,7 +72,7 @@ promiseRetry(retry => {
 		new FortuneModule(),
 		new GuessingGameModule(),
 		new KazutoriModule(),
-		// new ReversiModule(),
+		new ReversiModule(),
 		new TimerModule(),
 		new DiceModule(),
 		new TalkModule(),
