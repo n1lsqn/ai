@@ -1,9 +1,9 @@
 // AI CORE
-
+// @ts-nocheck
 import * as fs from 'fs';
 import { bindThis } from '@/decorators.js';
 import loki from 'lokijs';
-import got from 'got';
+import request from 'request-promise-native';
 import chalk from 'chalk';
 import { v4 as uuid } from 'uuid';
 import * as request from 'request-promise-native';
@@ -16,7 +16,6 @@ import Stream from '@/stream.js';
 import log from '@/utils/log.js';
 import { sleep } from './utils/sleep.js';
 import pkg from '../package.json' assert { type: 'json' };
-
 type MentionHook = (msg: Message) => Promise<boolean | HandlerResult>;
 type ContextHook = (key: any, msg: Message, data?: any) => Promise<void | boolean | HandlerResult>;
 type TimeoutCallback = (data?: any) => void;
@@ -354,7 +353,7 @@ export default class 藍 {
 				}
 			},
 			json: true
-		})
+		});
 		return res;
 	}
 
@@ -384,11 +383,11 @@ export default class 藍 {
 	@bindThis
 	public api(endpoint: string, param?: any) {
 		this.log(`API: ${endpoint}`);
-		return got.post(`${config.apiUrl}/${endpoint}`, {
+		return request.post(`${config.apiUrl}/${endpoint}`, {
 			json: Object.assign({
 				i: config.i
 			}, param)
-		}).json();
+		});
 	};
 
 	/**

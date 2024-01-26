@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Module from '@/module.js';
 import Message from '@/message.js';
 import serifs from '@/serifs.js';

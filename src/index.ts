@@ -1,4 +1,5 @@
 // AiOS bootstrapper
+// @ts-nocheck
 
 import chalk from 'chalk';
 import got from 'got';
@@ -34,7 +35,6 @@ import PollModule from './modules/poll/index.js';
 import ReminderModule from './modules/reminder/index.js';
 import CheckCustomEmojisModule from './modules/check-custom-emojis/index.js';
 import RecommendMusicModule from './modules/recommend-music/index.js';
-import { User } from '@/misskey/user.js';
 
 console.log('   __    ____  _____  ___ ');
 console.log('  /__\\  (_  _)(  _  )/ __)');

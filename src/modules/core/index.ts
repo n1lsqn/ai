@@ -60,9 +60,7 @@ export default class extends Module {
 		return true;
 	}
 
-/*
-	<<<<<<< HEAD
-@autobind
+@bindThis
 	private setName(msg: Message): boolean {
   	if (!msg.text) {
     	return false;
@@ -71,24 +69,6 @@ export default class extends Module {
   	if (!msg.text.includes('って呼んで')) {
 			return false;
   	}
-=======
-	@bindThis
-	private setName(msg: Message): boolean  {
-		if (!msg.text) return false;
-		if (!msg.text.includes('って呼んで')) return false;
-		if (msg.text.startsWith('って呼んで')) return false;
-
-		const name = msg.text.match(/^(.+?)って呼んで/g)![1];
->>>>>>> 54f10b33216ad516507c4d6eac45f435866a06ad
-*/
-/*
-	@bindThis
-	private setName(msg: Message): boolean  {
-		if (!msg.text) return false;
-		if (!msg.text.includes('って呼んで')) return false;
-		if (msg.text.startsWith('って呼んで')) return false;
-
-		const name = msg.text.match(/^(.+?)って呼んで/g)![1];
 
   	if (msg.text.startsWith('って呼んで')) {
     	return false;
@@ -131,40 +111,7 @@ export default class extends Module {
 
   return true;
 }
-*/
-@bindThis
-private setName(msg: Message): boolean  {
-	if (!msg.text) return false;
-	if (!msg.text.includes('って呼んで')) return false;
-	if (msg.text.startsWith('って呼んで')) return false;
 
-	const name = msg.text.match(/^(.+?)って呼んで/g)![1];
-
-	if (name.length > 10) {
-		msg.reply(serifs.core.tooLong);
-		return true;
-	}
-
-	if (!safeForInterpolate(name)) {
-		msg.reply(serifs.core.invalidName);
-		return true;
-	}
-
-	const withSan = titles.some(t => name.endsWith(t));
-
-	if (withSan) {
-		msg.friend.updateName(name);
-		msg.reply(serifs.core.setNameOk(name));
-	} else {
-		msg.reply(serifs.core.san).then(reply => {
-			this.subscribeReply(msg.userId, reply.id, {
-				name: name
-			});
-		});
-	}
-
-	return true;
-}
 	@bindThis
 	private modules(msg: Message): boolean  {
 		if (!msg.text) return false;
