@@ -10,7 +10,7 @@ export default class extends Module {
 	private connection?: any;
 	private recentStat: any;
 	private warned = false;
-	private lastWarnedAt: number;
+	private lastWarnedAt?: number;
 
 	/**
 	 * 1秒毎のログ1分間分

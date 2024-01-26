@@ -65,7 +65,7 @@ export default class Message {
 		this.ai.api('users/show', {
 			userId: this.userId
 		}).then(user => {
-			this.friend.updateUser(user);
+			this.friend.updateUser(user as User);
 		});
 	}
 
@@ -83,13 +83,15 @@ export default class Message {
 		if (!opts?.immediate) {
 			await sleep(2000);
 		}
+		const replyVisibility = this.note.visibility === 'public' ? 'home' : this.note.visibility;
 
 		return await this.ai.post({
 			replyId: this.note.id,
 			text: text,
 			fileIds: opts?.file ? [opts?.file.id] : undefined,
 			cw: opts?.cw,
-			renoteId: opts?.renote
+			renoteId: opts?.renote,
+			visibility: replyVisibility
 		});
 	}
 

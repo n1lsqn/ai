@@ -59,13 +59,13 @@ promiseRetry(retry => {
 }, {
 	retries: 3
 }).then(account => {
-	const acct = `@${account.username}`;
+	const acct = `@${(account as User).username}`;
 	log(chalk.green(`Account fetched successfully: ${chalk.underline(acct)}`));
 
 	log('Starting AiOS...');
 
 	// 藍起動
-	new 藍(account, [
+	new 藍(account as User, [
 		new CoreModule(),
 		new EmojiModule(),
 		new EmojiReactModule(),
