@@ -3,6 +3,7 @@ import Module from '@/module.js';
 import Message from '@/message.js';
 import serifs from '@/serifs.js';
 import { safeForInterpolate } from '@/utils/safe-for-interpolate.js';
+import config from '@/config.js';
 
 const titles = ['さん', 'くん', '君', 'ちゃん', '様', '先生'];
 
@@ -94,17 +95,19 @@ export default class extends Module {
 
   	const withSan = titles.some(t => name.endsWith(t));
 
+		const hostName = config.host.replace(/^https?:\/\//, "");
+
   	if (withSan) {
 			msg.friend.updateName(
-				name.replace("@ai", "")
-						.replace("@papi.n1l.dev", "")
+				name.replace(`@${this.ai.account.username}`, "")
+						.replace(`@${hostName}`, "")
 			);
     	msg.reply(serifs.core.setNameOk(name));
   	} else {
     	msg.reply(serifs.core.san).then(reply => {
       	this.subscribeReply(msg.userId, reply.id, {
-					name: name.replace("@ai", "")
-										.replace("@papi.n1l.dev", "")
+					name: name.replace(`@${this.ai.account.username}`, "")
+										.replace(`@${hostName}`, "")
       	});
     	});
   	}
