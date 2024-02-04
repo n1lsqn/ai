@@ -83,7 +83,7 @@ export default class extends Module {
 
   	const name = matchResult[1];
 
-  	if (name.length > 30) {
+  	if (name.length > 64) {
     	msg.reply(serifs.core.tooLong);
     	return true;
   	}

@@ -7,7 +7,6 @@ import got from 'got';
 import { FormData, File } from 'formdata-node';
 import chalk from 'chalk';
 import { v4 as uuid } from 'uuid';
-import * as request from 'request-promise-native';
 import config from '@/config.js';
 import Module from '@/module.js';
 import Message from '@/message.js';
@@ -382,11 +381,11 @@ export default class 藍 {
 	@bindThis
 	public api(endpoint: string, param?: any) {
 		this.log(`API: ${endpoint}`);
-		return request.post(`${config.apiUrl}/${endpoint}`, {
+		return got.post(`${config.apiUrl}/${endpoint}`, {
 			json: Object.assign({
 				i: config.i
 			}, param)
-		});
+		}).json();
 	};
 
 	/**
