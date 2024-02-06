@@ -48,7 +48,7 @@ export default class extends Module {
 	private async mentionHook(msg: Message) {
 		if (msg.text == null) return false;
 
-		const query = msg.includes(['サーバーバージョン', 'バージョン', 'バージョン確認', 'バージョンチェック']);
+		const query = msg.includes(['サーバーバージョン', 'バージョン確認', 'バージョンチェック']);
 
 		if (query == null) return false;
 
