@@ -62,7 +62,7 @@ export default class extends Module {
 	}
 
 	private getVersion = (): Promise<Version> => {
-		return this.ai.api('meta').then(meta => {
+		return this.ai.api('meta').then((meta: any) => {
 			return {
 				server: meta.version,
 				client: meta.clientVersion
@@ -70,7 +70,7 @@ export default class extends Module {
 		});
 	};
 
-	private mfmVersion = (v): string => {
+	private mfmVersion = (v: string): string => { // Specify the type of 'v' as 'string'
 		if (v == null) return v;
 		return v.match(/^\d+\.\d+\.\d+$/) ? `[${v}](https://github.com/syuilo/misskey/releases/tag/${v})` : v;
 	};

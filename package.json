@@ -9,6 +9,7 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"@types/accurate-interval": "1.0.3",
 		"@types/chalk": "2.2.0",
 		"@types/lokijs": "1.5.14",
 		"@types/node": "20.11.5",
