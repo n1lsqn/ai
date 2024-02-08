@@ -36,6 +36,7 @@ import ReminderModule from './modules/reminder/index.js';
 import CheckCustomEmojisModule from './modules/check-custom-emojis/index.js';
 import RecommendMusicModule from './modules/recommend-music/index.js';
 import CheckVersion from './modules/checkVersion/index.js';
+import JihouModule from './modules/jihou/index.js';
 
 console.log('   __    ____  _____  ___ ');
 console.log('  /__\\  (_  _)(  _  )/ __)');
@@ -92,7 +93,8 @@ promiseRetry(retry => {
 		new ReminderModule(),
 		new RecommendMusicModule(),
 		new CheckCustomEmojisModule(),
-		new CheckVersion()
+		new CheckVersion(),
+		new JihouModule()
 	]);
 }).catch(e => {
 	log(chalk.red('Failed to fetch the account'));
