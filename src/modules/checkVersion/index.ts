@@ -46,22 +46,19 @@ export default class extends Module {
 
 	@bindThis
 	private async mentionHook(msg: Message) {
-		if (msg.text == null) return false;
-
-		const query = msg.includes(['サーバーバージョン', 'バージョン確認', 'バージョンチェック']);
-
-		if (query == null) return false;
-
-		this.ai
-			.api('meta')
-			.then(meta => {
-				msg.reply(`${this.mfmVersion(meta.version)} みたいです！`);
-			})
-			.catch(() => {
-				msg.reply(`ごめんなさい、取得に失敗したようです・・・。`);
-			});
-
-		return true;
+		if (msg.text == null) {
+			return false;
+		} else if (msg.includes(['サーバーバージョン', 'バージョン確認', 'バージョンチェック'])) {
+			this.getVersion()
+				.then(meta => {
+					msg.reply(`${this.mfmVersion(meta.server)} みたいです！`);
+				})
+				.catch(() => {
+					msg.reply(`ごめんなさい、取得に失敗したようです・・・。`);
+				});
+			return true;
+		}
+		return false;
 	}
 
 	private getVersion = (): Promise<Version> => {
