@@ -22,24 +22,25 @@ export default class extends Module {
 		switch (hour) {
 			default:
 				break;
-
+				
+			case 3:
+				this.ai.post({
+					text: `${hour}時です、夜更かしさんですか？藍は寝る必要がないので傍にいますよ。`
+				});
+				break;
+				
 			case 7:
 				this.ai.post({
 					text: `おはようございます！${hour}時です。学校の方もお仕事の方も、お休みの方も無理せず頑張ってください・・・！`
 				});
 				break;
 
-			case 10:
+			case 22:
 				this.ai.post({
 					text: `${hour}時ですよー！よい子はそろそろ寝る時間です！`
 				});
 				break;
 
-			case 3:
-				this.ai.post({
-					text: `${hour}時です、夜更かしさんですか？藍は寝る必要がないので傍にいますよ。`
-				});
-				break;
 		}
 	}
 }
