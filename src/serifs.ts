@@ -53,15 +53,37 @@ export default {
 		},
 
 		say: {
-			general: (name, thing) => name ? [
-				`${name}、${thing}はすごいですね！`,
-				`${name}、${thing}はすごいですよ～♪`
-			] : [],
-			hentai: (name, thing) => name ? [
-				`${name}さん、変態ですね！`,
-				`${name}さん、そういうのはよくありません！`,
-				`<small>${thing}</small>`,
-			] : [],
+			general: name => name ? [
+				`${name}、です！`,
+				`${name}、ですよ～♪`
+			] : [
+				`です！`,
+				`ですよ～♪`
+			],
+
+			specify: (thing, name) => name ? [
+				`${name}、${thing}です！`,
+				`${name}、${thing}ですよ～♪`
+			] : [
+				`${thing}です！`,
+				`${thing}ですよ～♪`
+			],
+
+			specify2: (thing, name) => name ? [
+				`${name}、${thing}でえらいです！`,
+				`${name}、${thing}でえらいですよ～♪`
+			] : [
+				`${thing}でえらいです！`,
+				`${thing}でえらいですよ～♪`
+			],
+
+			hentai: (thing, name) => name ? [
+				`${name}の変態っ！`,
+				// `${name}、<small><small><small><small>${thing}</small></small></small></small>...いえ、なんでもないです`
+			] : [
+				`${name}の変態っ！`,
+				// `${name}、<small><small><small><small>${thing}</small></small></small></small>...いえ、なんでもないです`
+			],
 		},
 
 		okaeri: {
