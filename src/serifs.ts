@@ -53,16 +53,16 @@ export default {
 		},
 
 		say: {
-			general: name => name ? [
-				`${name}、${thing}てえらいです！`,
-				`${name}、${thing}てえらいですよ～♪`
-			],
-			hentai: name => name ? [
-				`${name}の変態っ！`,
-				`${name}さん、そういうのよくないと思います！`,
+			general: (name, thing) => name ? [
+				`${name}、${thing}はすごいですね！`,
+				`${name}、${thing}はすごいですよ～♪`
+			] : [],
+			hentai: (name, thing) => name ? [
+				`${name}さん、変態ですね！`,
+				`${name}さん、そういうのはよくありません！`,
 				`<small>${thing}</small>`,
-			]
-		},
+			] : [],
+		}
 
 		okaeri: {
 			love: name => name ? [
