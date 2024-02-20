@@ -62,7 +62,7 @@ export default {
 				`${name}さん、そういうのはよくありません！`,
 				`<small>${thing}</small>`,
 			] : [],
-		}
+		},
 
 		okaeri: {
 			love: name => name ? [
