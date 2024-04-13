@@ -142,6 +142,7 @@ export default class 藍 {
 		// メンションされたとき
 		mainStream.on('mention', async data => {
 			if (data.userId == this.account.id) return; // 自分は弾く
+			if (config.localOnly && data.user.host != null) return; // ローカルのみモード
 			if (data.text && data.text.startsWith('@' + this.account.username)) {
 				// Misskeyのバグで投稿が非公開扱いになる
 				if (data.text == null) data = await this.api('notes/show', { noteId: data.id });
@@ -152,6 +153,7 @@ export default class 藍 {
 		// 返信されたとき
 		mainStream.on('reply', async data => {
 			if (data.userId == this.account.id) return; // 自分は弾く
+			if (config.localOnly && data.user.host != null) return; // ローカルのみモード
 			if (data.text && data.text.startsWith('@' + this.account.username)) return;
 			// Misskeyのバグで投稿が非公開扱いになる
 			if (data.text == null) data = await this.api('notes/show', { noteId: data.id });
@@ -161,6 +163,7 @@ export default class 藍 {
 		// Renoteされたとき
 		mainStream.on('renote', async data => {
 			if (data.userId == this.account.id) return; // 自分は弾く
+			if (config.localOnly && data.user.host != null) return; // ローカルのみモード
 			if (data.text == null && (data.files || []).length == 0) return;
 
 			// リアクションする
@@ -173,6 +176,7 @@ export default class 藍 {
 		// メッセージ
 		mainStream.on('messagingMessage', data => {
 			if (data.userId == this.account.id) return; // 自分は弾く
+			if (config.localOnly && data.user.host != null) return; // ローカルのみモード
 			this.onReceiveMessage(new Message(this, data));
 		});
 

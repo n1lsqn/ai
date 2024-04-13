@@ -441,29 +441,57 @@ class Session {
 	 * @param text 投稿内容
 	 */
 	private post = async (text: string, renote?: any) => {
-		if (this.allowPost) {
-			const body = {
-				i: config.i,
-				text: text,
-				visibility: 'home'
-			} as any;
-
-			if (renote) {
-				body.renoteId = renote.id;
-			}
-
-			try {
-				const res = await got.post(`${config.host}/api/notes/create`, {
-					json: body
-				}).json() as any;
-
-				return res.createdNote;
-			} catch (e) {
-				console.error(e);
+		if (config.localOnly) {
+			if (this.allowPost) {
+				const body = {
+					i: config.i,
+					text: text,
+					visibility: 'home',
+					localOnly: true
+				} as any;
+	
+				if (renote) {
+					body.renoteId = renote.id;
+				}
+	
+				try {
+					const res = await got.post(`${config.host}/api/notes/create`, {
+						json: body
+					}).json() as any;
+	
+					return res.createdNote;
+				} catch (e) {
+					console.error(e);
+					return null;
+				}
+			} else {
 				return null;
 			}
 		} else {
-			return null;
+			if (this.allowPost) {
+				const body = {
+					i: config.i,
+					text: text,
+					visibility: 'home'
+				} as any;
+
+				if (renote) {
+					body.renoteId = renote.id;
+				}
+
+				try {
+					const res = await got.post(`${config.host}/api/notes/create`, {
+						json: body
+					}).json() as any;
+
+					return res.createdNote;
+				} catch (e) {
+					console.error(e);
+					return null;
+				}
+			} else {
+				return null;
+			}
 		}
 	}
 }
