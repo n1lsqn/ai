@@ -16,6 +16,7 @@ type Config = {
 	mecab?: string;
 	mecabDic?: string;
 	memoryDir?: string;
+	localOnly?: boolean;
 };
 
 import config from '../config.json' assert { type: 'json' };
