@@ -22,6 +22,7 @@ export default class extends Module {
 		return (
 			this.greet(msg) ||
 			this.erait(msg) ||
+			this.say(msg) ||
 			this.omedeto(msg) ||
 			this.nadenade(msg) ||
 			this.kawaii(msg) ||
@@ -130,6 +131,22 @@ export default class extends Module {
 
 		msg.reply(getSerif(serifs.core.erait.general(msg.friend.name)));
 
+		return true;
+	}
+
+	@bindThis
+	private say(msg: Message): boolean {
+		const match = msg.extractedText.match(/(.+?)って言って/);
+		const matchHentai = msg.extractedText.match(/^(?=.*(?:ちんこ|まんこ|おっぱい|おちんちん|おまんこ|膣)).+?って言って/);
+
+		if (matchHentai) {
+			msg.reply(getSerif(serifs.core.say.hentai(matchHentai[1], msg.friend.name)));
+			return true;
+		} else if (match) {
+			msg.reply(getSerif(serifs.core.say.specify(match[1], msg.friend.name)));
+			return true;
+		} 
+		
 		return true;
 	}
 
